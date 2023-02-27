@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://ctf4fytxmlpg4"]
+
+[ext_resource type="Script" path="res://truc.gd" id="2_kdcx2"]
+[ext_resource type="Texture2D" uid="uid://dvs2o42wam0xv" path="res://addons/explore-editor-theme/plugin-icon.png" id="2_s5bye"]
+
+[sub_resource type="FontVariation" id="FontVariation_h54xh"]
+variation_embolden = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xjp1x"]
+corner_radius_top_left = 100
+
+[node name="Node2D" type="Node"]
+script = ExtResource("2_kdcx2")
+
+[node name="Node" type="Button" parent="."]
+offset_right = 399.0
+offset_bottom = 23.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/font = SubResource("FontVariation_h54xh")
+theme_override_styles/normal = SubResource("StyleBoxFlat_xjp1x")
+text = "blabalanufzkzefz"
+icon = ExtResource("2_s5bye")
+alignment = 0
+expand_icon = true
+metadata/_edit_group_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0

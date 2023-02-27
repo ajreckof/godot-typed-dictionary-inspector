@@ -39,7 +39,6 @@ func add_all_items(collection):
 	theme.set_constant("separation","VBoxContainer",0)
 	
 	for x in prop_list:
-		print(x)
 		var usage = x.usage
 
 		if usage & PROPERTY_USAGE_EDITOR != 0:
@@ -141,3 +140,8 @@ func _on_property_control_value_changed(value, control, container, is_rename = f
 func check_for_empty_last_group():
 	if last_group_item_container and last_group_item_container.get_child_count() == 0 :
 		last_group_item_container.get_parent().queue_free()
+
+func set_hint_array(value):
+	if value.is_empty():
+		value = [""]
+	hint_array = value

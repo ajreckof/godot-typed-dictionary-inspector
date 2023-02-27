@@ -3,6 +3,11 @@ extends VBoxContainer
 
 signal value_changed(new_value)
 
+
+var hint_array : PackedStringArray = [] :
+	get = get_hint_array,
+	set = set_hint_array
+
 const DictionaryInspectorArrayIndex = preload("res://addons/dictionary_inspector/elements/special_buttons/array_index.gd")
 const TypeOptionButton = preload("res://addons/dictionary_inspector/elements/special_buttons/type_option_button.gd")
 
@@ -138,7 +143,7 @@ func create_item_container(k):
 	return label
 
 
-func create_item_control_for_type(type, initial_value, container, is_key) -> Control:
+func create_item_control_for_type(type, class_hint, initial_value, container, is_key) -> Control:
 	var result
 	var settings = plugin.get_editor_interface().get_editor_settings()
 	var float_step = settings.get_setting("interface/inspector/default_float_step")
@@ -194,7 +199,7 @@ func create_item_control_for_type(type, initial_value, container, is_key) -> Con
 		TYPE_PACKED_VECTOR2_ARRAY, TYPE_PACKED_VECTOR3_ARRAY:
 			# This big boy will also handle the distinction.
 			var script_file = "res://addons/dictionary_inspector/elements/special_buttons/collection_header_button.gd"
-			result = load(script_file).new(initial_value, plugin)
+			result = load(script_file).new(initial_value, plugin, [hint_array[0 if is_key else 1]])
 			result.bottom_control_available.connect(container.add_sibling)
 
 		_:
@@ -333,3 +338,9 @@ func _on_property_control_value_changed(value, control, container, is_rename = f
 
 func _on_property_control_type_changed(type_index, control, container, is_key = false):
 	pass
+
+func get_hint_array():
+	return hint_array
+
+func set_hint_array(value):
+	hint_array = value

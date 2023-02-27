@@ -12,12 +12,14 @@ var open_button
 var bottom_control
 var collection_editor
 var stylebox
+var hint_array : PackedStringArray
 
 
 
-func _init(collection, plugin):
+func _init(collection, plugin, hint_array):
 	stored_collection = collection
 	self.plugin = plugin
+	self.hint_array =hint_array
 
 
 func _ready():
@@ -39,7 +41,7 @@ func _ready():
 	if stored_collection is Object || stored_collection == null:
 		await get_tree().process_frame
 		var picker_script = preload("res://addons/dictionary_inspector/elements/special_buttons/custom_resource_picker.gd")
-		var picker = picker_script.new(stored_collection, plugin)
+		var picker = picker_script.new(stored_collection, hint_array, plugin)
 		replace_by(picker)
 		picker.size_flags_horizontal = SIZE_EXPAND_FILL
 		picker.add_child(self)
@@ -72,6 +74,7 @@ func _on_pressed():
 		).new()
 
 		collection_editor.parent_stylebox = stylebox
+		collection_editor.hint_array = hint_array
 		bottom_control.add_child(collection_editor)
 		collection_editor.value_changed.connect(_on_value_changed)
 		color_rect.show()

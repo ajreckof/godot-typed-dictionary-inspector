@@ -2,7 +2,7 @@
 extends EditorPlugin
 
 var plugin
-
+const AUTOLOAD_NAME = "TypedDictionary"
 
 func _enter_tree():
 	plugin = load("res://addons/dictionary_inspector/inspector_plugin.gd").new(self)

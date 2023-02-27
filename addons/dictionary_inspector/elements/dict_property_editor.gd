@@ -56,7 +56,13 @@ func create_item_container(index_in_collection):
 	return item_container
 
 
-func toggle_property_editable(container):	
+func toggle_property_editable(container):
+
+	var not_key_typed = true
+	var not_value_typed = true
+	if hint_array:
+		not_key_typed = hint_array[0].is_empty()
+		not_value_typed = hint_array[1].is_empty()
 	var key_container : HBoxContainer = container.get_child(1)
 	var value_container : HBoxContainer = container.get_child(2)
 	
@@ -70,10 +76,14 @@ func toggle_property_editable(container):
 		key_container_children[0].hide()
 		var delete_button
 		key_container_children[0].add_sibling(create_item_control_for_type(typeof(k), k, container, true))
-		key_container_children[0].add_sibling(create_type_switcher(typeof(k), container, true))
-		var value_type_switcher = create_type_switcher(typeof(stored_collection[k]), container, false)
-		value_container.add_child(value_type_switcher)
-		value_container.move_child(value_type_switcher,0)
+
+		if not_key_typed :
+			key_container_children[0].add_sibling(create_type_switcher(typeof(k), container, true))
+
+		if not_value_typed :
+			var value_type_switcher = create_type_switcher(typeof(stored_collection[k]), container, false)
+			value_container.add_child(value_type_switcher)
+			value_container.move_child(value_type_switcher,0)
 		var DeleteButton = init_delete_button.duplicate()
 		DeleteButton.pressed.connect(_on_item_deleted.bind(container))
 		value_container.add_child(DeleteButton)
@@ -81,8 +91,10 @@ func toggle_property_editable(container):
 		display_key_on_label(k, key_container_children[0])
 		key_container_children[0].show()
 		key_container_children[1].queue_free()
-		key_container_children[2].queue_free()
-		value_container_children[0].queue_free()
+		if not_key_typed :
+			key_container_children[2].queue_free()
+		if not_value_typed :
+			value_container_children[0].queue_free()
 		value_container_children[value_container_children.size()-1].queue_free()
 	
 
@@ -109,6 +121,11 @@ func _on_add_button_pressed():
 	
 	if last_type_k == TYPE_BOOL:
 		last_type_k = TYPE_INT
+	if hint_array :
+		if hint_array[0]:
+			last_type_k = get_type_from_string(hint_array[0])
+		if hint_array[1]:
+			last_type_v = get_type_from_string(hint_array[1])
 	
 	var new_key = get_default_for_type(last_type_k, true)
 	var new_value = get_default_for_type(last_type_v)
@@ -172,3 +189,9 @@ func _on_item_moved(from_container, to_container):
 			i += 1
 	
 	emit_signal("value_changed", new_collection)
+
+func set_hint_array(value):
+	if value.size() == 2 :
+		hint_array = value
+	else : 
+		hint_array = ["",""]

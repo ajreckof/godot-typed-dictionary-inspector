@@ -3,16 +3,18 @@ extends EditorProperty
 
 var property_control
 var current_value
+var hint_array : PackedStringArray
 
+@export
 var plugin : EditorPlugin
 
 
-func _init(current_value, plugin):
+func _init(current_value, hint_text, plugin):
 	self.current_value = current_value
 	self.plugin = plugin
-
+	hint_array = hint_text.split(",")
 	property_control = load("res://addons/dictionary_inspector/elements/special_buttons/collection_header_button.gd")\
-		.new(current_value, plugin)
+		.new(current_value, plugin, hint_array)
 	add_child(property_control)
 	add_focusable(property_control)
 	property_control.connect("bottom_control_available", _on_bottom_control_available)

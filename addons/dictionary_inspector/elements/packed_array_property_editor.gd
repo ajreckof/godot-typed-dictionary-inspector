@@ -42,7 +42,7 @@ func create_item_container(index_in_collection):
 	var c = init_prop_container.duplicate()
 	c.add_child(DictionaryInspectorArrayIndex.new(index_in_collection))
 	c.get_child(0).connect("drop_received", _on_item_moved.bind(c))
-	c.add_child(create_item_control_for_type(last_type_v, stored_collection[index_in_collection], c, false))
+	c.add_child(create_item_control_for_type(last_type_v, "", stored_collection[index_in_collection], c, false))
 
 	var delete_button = Button.new()
 	delete_button.icon = get_theme_icon("Remove", "EditorIcons")
